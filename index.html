@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Influence Analysis Demonstration</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Influence Analysis Demonstration">
+  <meta name="author" content="OmaymaS">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/js/slides" 
+    src="http://slidifylibraries2.googlecode.com/git/inst/libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Influence Analysis Demonstration</h1>
+    <h2></h2>
+    <p>OmaymaS<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Background</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>- Influence Analysis is performed to evaluate influential observations in regression models.</h3>
+
+<h3>- A simple interactive Shiny App is presented here to clarify the intuition behind leverage and influence.</h3>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Application Overview</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>The app demonstrates the leverage and influence of an adjustable point that is part of a dataset with 101 points; 100 of which are normally distributed. You can select the X-Y coordinates of the adjustable point using the following sliders with ranges from [-10,10] for both X and Y. The adjustable point appears in red on the graph.</p></li>
+<li><p>For every point you choose, The Linear regression model coefficients are updated and also some of the influence measures such as <em>hatvalue</em>, <em>residual</em> and <em>dfbeta</em> are shown.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Application Implementation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>We start by generating 100 normally distributed data points</p></li>
+<li><p>the point 101 is added according to the user&#39;s choice by using the sliders. For example if the user chooses [10,5] it will be prepended to the previously generated points as follows:</p></li>
+</ul>
+
+<pre><code class="r">head(newDF)
+</code></pre>
+
+<pre><code>##            X          Y
+## 1 10.0000000  5.0000000
+## 2  0.2115549 -0.3396219
+## 3 -0.7103840  0.2055222
+## 4 -0.2457418 -0.3441439
+## 5 -0.3707048  1.0913543
+## 6  1.1138776  0.3280097
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Influence Analysis Measures</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The app gives the user the chance to play with different points to understand the concepts of leverage and influence. A plot is also shown to see the location of the point and how the regression line moves as a lever according to the chosen point coordinates. </li>
+</ul>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-4"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>App Link and Further Explanation</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><a href="https://omaymas.shinyapps.io/Influence_Analysis/">Shiny App</a></p>
+
+<p><a href="http://omaymas.github.io/InfluenceAnalysis/">Blog Post : Leverage and Influence in a Nutshell</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Background'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Application Overview'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Application Implementation'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Influence Analysis Measures'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='App Link and Further Explanation'>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="http://slidifylibraries2.googlecode.com/git/inst/libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

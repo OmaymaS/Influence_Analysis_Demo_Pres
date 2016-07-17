@@ -1,0 +1,77 @@
+---
+title       : Influence Analysis Demonstration
+subtitle    : 
+author      : OmaymaS
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap,selfcontained}
+mode        : standalone # {standalone, draft,selfcontained}
+
+
+---
+
+## Background
+
+### - Influence Analysis is performed to evaluate influential observations in regression models.
+
+### - A simple interactive Shiny App is presented here to clarify the intuition behind leverage and influence.
+
+
+
+---  .class #id
+
+## Application Overview
+
+- The app demonstrates the leverage and influence of an adjustable point that is part of a dataset with 101 points; 100 of which are normally distributed. You can select the X-Y coordinates of the adjustable point using the following sliders with ranges from [-10,10] for both X and Y. The adjustable point appears in red on the graph.
+
+- For every point you choose, The Linear regression model coefficients are updated and also some of the influence measures such as *hatvalue*, *residual* and *dfbeta* are shown.
+
+---  .class #id
+
+## Application Implementation
+
+- We start by generating 100 normally distributed data points
+
+```{r echo=F}
+#generate normally distributed 100 points
+        set.seed(1523)
+        n <- 100
+        x1 <- rnorm(n) ; x1<-x1-mean(x1) #center the data
+        y1 <- rnorm(n) ; y1<-y1-mean(y1)
+```
+
+- the point 101 is added according to the user's choice by using the sliders. For example if the user chooses [10,5] it will be prepended to the previously generated points as follows:
+
+```{r echo=F}
+c<-c(10,5)
+datX<-c(c[1],x1)
+datY<-c(c[2],y1)
+newDF<-data.frame(X=datX,Y=datY)
+```
+```{r}
+head(newDF)
+```
+
+---  .class #id
+
+## Influence Analysis Measures
+
+- The app gives the user the chance to play with different points to understand the concepts of leverage and influence. A plot is also shown to see the location of the point and how the regression line moves as a lever according to the chosen point coordinates. 
+
+
+```{r echo=F}
+fit<-lm(Y~X,data=newDF)
+plot(Y~X,data=newDF)
+abline(fit)
+
+```
+
+---  .class #id
+## App Link and Further Explanation
+
+[Shiny App](https://omaymas.shinyapps.io/Influence_Analysis/)
+
+[Blog Post : Leverage and Influence in a Nutshell](http://omaymas.github.io/InfluenceAnalysis/)
+
